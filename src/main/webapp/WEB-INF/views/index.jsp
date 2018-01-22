@@ -23,6 +23,7 @@
 <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
 <link rel="stylesheet" href="<%=basePath%>assets/vender/AdminLTE/css/_all-skins.min.css">
+<link rel="stylesheet" href="<%=basePath%>assets/css/default.css">
 <title>后台管理</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -83,7 +84,7 @@
                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                   </div>
                   <div class="pull-right">
-                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                    <a href="javascript:void(0)" class="btn btn-default btn-flat" onclick="logout()">Sign out</a>
                   </div>
                 </li>
               </ul></li>
@@ -107,59 +108,43 @@
             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
           </div>
         </div>
-        <!-- search form -->
-        <form action="#" method="get" class="sidebar-form">
-          <div class="input-group">
-            <input type="text" name="q" class="form-control" placeholder="Search..."> <span
-              class="input-group-btn">
-              <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-                <i class="fa fa-search"></i>
-              </button>
-            </span>
-          </div>
-        </form>
-        <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
           <li class="header">MAIN NAVIGATION</li>
-          <li class="active treeview"><a href="#"> <i class="fa fa-dashboard"></i> <span>Dashboard</span> <span
-              class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
+          <li class="active treeview">
+            <a href="#"> <i class="fa fa-dashboard"></i> <span>Dashboard</span> 
+              <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i></span>
+            </a>
             <ul class="treeview-menu">
               <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
               <li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-            </ul></li>
+            </ul>
+          </li>
           <li class="treeview"><a href="#"> <i class="fa fa-files-o"></i> <span>Layout Options</span> <span
               class="pull-right-container"> <span class="label label-primary pull-right">4</span>
-            </span>
-          </a>
+            </span></a>
             <ul class="treeview-menu">
               <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
               <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
               <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
               <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed
                   Sidebar</a></li>
-            </ul></li>
+            </ul>
+          </li>
           <li><a href="pages/widgets.html"> <i class="fa fa-th"></i> <span>Widgets</span> <span
               class="pull-right-container"> <small class="label pull-right bg-green">new</small>
-            </span>
-          </a></li>
+            </span></a>
+          </li>
           <li class="treeview"><a href="#"> <i class="fa fa-pie-chart"></i> <span>Charts</span> <span
               class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
+            </span></a>
             <ul class="treeview-menu">
               <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> ChartJS</a></li>
               <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> Morris</a></li>
               <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> Flot</a></li>
               <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>
-            </ul></li>
-          <li><a href="pages/mailbox/mailbox.html"> <i class="fa fa-envelope"></i> <span>Mailbox</span> <span
-              class="pull-right-container"> <small class="label pull-right bg-yellow">12</small> <small
-                class="label pull-right bg-green">16</small> <small class="label pull-right bg-red">5</small>
-            </span>
-          </a></li>
+            </ul>
+          </li>
         </ul>
       </section>
       <!-- /.sidebar -->
@@ -168,15 +153,12 @@
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
       <section class="content-header">
-        <h1>
-          Dashboard <small>Control panel</small>
-        </h1>
+        <h1>Dashboard <small>Control panel</small></h1>
         <ol class="breadcrumb">
           <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
           <li class="active">Dashboard</li>
         </ol>
       </section>
-
       <!-- Main content -->
       <section class="content">
         <!-- Small boxes (Stat box) -->
@@ -545,8 +527,10 @@
   <!-- ./wrapper -->
   <script type="text/javascript" src="<%=basePath%>assets/vender/jquery/jquery.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <script type="text/javascript" src="<%=basePath%>assets/vender/bootstrap/js/bootstrap.min.js"></script>
+  <script src="<%=basePath%>assets/vender/bootstrap/js/bootstrap.min.js"></script>
+  <script src="<%=basePath%>assets/vender/bootbox/bootbox.min.js"></script>
   <!-- AdminLTE App -->
   <script src="<%=basePath%>assets/vender/AdminLTE/js/AdminLTE.min.js"></script>
+  <script src="<%=basePath%>assets/js/default.js"></script>
 </body>
 </html>

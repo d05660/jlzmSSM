@@ -24,17 +24,13 @@
     <div class="login-box">
       <form id="login-form" method="post">
         <div class="input-box">
-          <p>
-            用户名： <input type="text" class="user required"
-              name="username" autofocus="autofocus" maxlength="20" />
+          <p> 用户名： <input type="text" class="user required" name="username" autofocus="autofocus" maxlength="20" />
           </p>
           <p>
-            <span style="padding-right: 12px;">密</span>码： <input
-              type="password" class="password required" name="password" />
+            <span style="padding-right: 12px;">密</span>码： <input type="password" class="password required" name="password" />
           </p>
           <p>
-            <input type="checkbox" name="rememberMe" value="1"
-              class="check" /><span class="record">记住登录名</span>
+            <input type="checkbox" name="rememberMe" value="1" class="check" /><span class="record">记住登录名</span>
           </p>
           <a href="javascript:;" class="log" onclick="submitForm()">登&nbsp;录</a>
           <a href="javascript:;" class="reset" onclick="clearForm()">重&nbsp;置</a>
