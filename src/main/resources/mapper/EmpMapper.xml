@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.cloud.ssm.mapper.EmpMapper">
+
+  <resultMap type="Emp" id="empMap">
+    <id column="id" property="id"></id>
+    <result column="userid" property="userid" />
+    <result column="username" property="username" />
+    <result column="partment" property="partment" />
+    <result column="tel" property="tel" />
+    <result column="email" property="email" />
+  </resultMap>
+
+  <select id="selectAll" resultMap="empMap">
+    SELECT *
+    FROM `emp`
+  </select>
+  
+  <select id="selectCount" resultType="long">
+    SELECT count(*)
+    FROM `emp`
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="empMap">
+    SELECT *
+    FROM `emp`
+    <where>
+      `emp`.id=#{id}
+    </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="long">
+    DELETE FROM
+    `emp` WHERE `emp`.id=#{id}
+  </delete>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="Emp">
+    INSERT INTO `emp` (userid,username,partment,tel,email)
+    VALUES (#{userid},#{username},#{partment},#{tel},#{email})
+  </insert>
+
+  <update id="update" parameterType="User">
+    UPDATE `emp` 
+    <set>
+      <if test="userid != null">
+        userid = #{userid},
+      </if>
+      <if test="username != null">
+        username = #{username},
+      </if>
+      <if test="partment != null">
+        partment = #{partment},
+      </if>
+      <if test="tel != null">
+        tel = #{tel},
+      </if>
+      <if test="email != null">
+        email = #{email},
+      </if>
+    </set>
+    <where>
+      `emp`.id=#{id}
+    </where>
+  </update>
+  
+  <select id="selectAllOrderBy" resultMap="empMap">
+    SELECT
+    *
+    FROM `emp` A
+    ORDER BY
+    <if test="column != null and column != ''">
+      <choose>
+        <when test="column =='username' ">
+          A.username
+        </when >
+        <when test="column =='userid' ">
+          A.userid
+        </when >
+        <when test="column =='partment' ">
+          A.partment
+        </when >
+        <otherwise>
+          ${column}
+        </otherwise>
+      </choose>
+      <if test="orderDir != null and orderDir != ''">
+        ${orderDir}
+      </if>
+    </if>
+  </select>
+</mapper>

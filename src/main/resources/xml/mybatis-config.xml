@@ -14,6 +14,7 @@
     <typeAlias type="org.cloud.ssm.domain.Permission" alias="Permission" />
     <typeAlias type="org.cloud.ssm.domain.RolePermission" alias="RolePermission" />
     <typeAlias type="org.cloud.ssm.domain.UserRole" alias="UserRole" />
+    <typeAlias type="org.cloud.ssm.domain.Emp" alias="Emp" />
   </typeAliases>
   
   <plugins>
