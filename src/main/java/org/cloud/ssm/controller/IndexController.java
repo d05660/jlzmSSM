@@ -25,9 +25,14 @@ public class IndexController {
      */
     @GetMapping(value = { "/", "/index" })
     public String getIndexPage(Model model) {
-        model.addAttribute("users", userService.getAllUsers());
-        LOGGER.debug("index");
+        
         return "index";
+    }
+    
+    @GetMapping("/userList")
+    public String getUsersPage(Model model) {
+        //model.addAttribute("users", userService.getAllUsers());
+        return "users";
     }
     
     @GetMapping(value = { "/home" })
