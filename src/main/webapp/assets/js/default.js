@@ -220,8 +220,17 @@ function initEmp() {
                     case 3:
                         param.orderColumn = "username";
                         break;
+                    case 3:
+                        param.orderColumn = "partment";
+                        break;
+                    case 4:
+                        param.orderColumn = "tel";
+                        break;
+                    case 4:
+                        param.orderColumn = "email";
+                        break;
                     default:
-                        param.orderColumn = "department";
+                        param.orderColumn = "id";
                         break;
                 }
                 param.orderDir = data.order[0].dir;

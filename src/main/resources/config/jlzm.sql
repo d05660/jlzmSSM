@@ -257,6 +257,7 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'david', 'e10adc3949ba59abbe56e057f20f883e');
+INSERT INTO `user` VALUES (1, 'admin', 'cd5ea73cd58f827fa78eef7197b8ee606c99b2e6');
+INSERT INTO `user` VALUES (2, 'david', '5e0c234f74aeb660a829b802b9da2e9d91ff53af');
 
 SET FOREIGN_KEY_CHECKS = 1;
