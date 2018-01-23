@@ -24,6 +24,7 @@
     <div class="login-box">
       <form id="login-form" method="post">
         <div class="input-box">
+          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
           <p> 用户名： <input type="text" class="user required" name="username" autofocus="autofocus" maxlength="20" />
           </p>
           <p>

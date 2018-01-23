@@ -28,6 +28,20 @@
     <!-- 缓存AuthorizationInfo信息的缓存名称 -->
     <property name="authorizationCacheName" value="authorizationCache" />
   </bean>
+  
+  <bean id="passwordService" class="org.apache.shiro.authc.credential.DefaultPasswordService">
+    <property name="hashService" ref="hashService" />
+  </bean>
+  
+  <bean id="hashService" class="org.apache.shiro.crypto.hash.DefaultHashService">
+    <property name="hashAlgorithmName" value="SHA-512" />
+    <property name="hashIterations" value="500000" />
+    <property name="generatePublicSalt" value="true" />
+  </bean>
+  
+  <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.PasswordMatcher">
+    <property name="passwordService" ref="passwordService"/>
+  </bean>
 
   <!-- 记住密码Cookie -->
   <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
@@ -79,7 +93,7 @@
   <!-- 会话管理器 -->
   <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
     <!-- 设置全局会话超时时间 半小时 -->
-    <property name="globalSessionTimeout" value="#{5 * 60 * 1000}" />
+    <property name="globalSessionTimeout" value="#{30 * 60 * 1000}" />
     <!-- url上带sessionId 默认为true -->
     <property name="sessionIdUrlRewritingEnabled" value="false" />
     <property name="sessionDAO" ref="sessionDAO" />
@@ -103,20 +117,6 @@
     class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
     <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager" />
     <property name="arguments" ref="securityManager" />
-  </bean>
-
-  <!-- shiro密码加密配置 -->
-  <bean id="passwordHash" class="org.cloud.ssm.common.shiro.PasswordHash">
-    <!-- 密码加密 1次md5,增强密码可修改此处 -->
-    <property name="algorithmName" value="SHA-1" />
-    <property name="hashIterations" value="1" />
-  </bean>
-
-  <!-- 密码错误5次锁定半小时 -->
-  <bean id="credentialsMatcher" class="org.cloud.ssm.common.shiro.RetryLimitCredentialsMatcher">
-    <constructor-arg ref="shiroSpringCacheManager" />
-    <property name="retryLimitCacheName" value="halfHour" />
-    <property name="passwordHash" ref="passwordHash" />
   </bean>
 
 </beans>

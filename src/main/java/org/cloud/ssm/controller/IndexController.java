@@ -30,7 +30,7 @@ public class IndexController {
      */
     @GetMapping(value = { "/", "/index" })
     public String getIndexPage(Model model) {
-
+        LOGGER.debug("salf login");
         return "index";
     }
 

@@ -1,22 +1,12 @@
 <%--标签 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="X-UA-Compatible" content="edge" />
-<link rel="shortcut icon" href="<%=basePath%>assets/images/favicon.ico" />
-
-<!-- Tell the browser to be responsive to screen width -->
-<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<script src="<%=basePath%>assets/vender/jquery/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
-<link rel="stylesheet" href="<%=basePath%>assets/vender/bootstrap/css/bootstrap.min.css">
-<!-- Ionicons -->
-<link rel="stylesheet" href="<%=basePath%>assets/vender/Ionicons/css/ionicons.min.css">
-<!-- Font Awesome -->
-<link rel="stylesheet" href="<%=basePath%>assets/vender/font-awesome/css/font-awesome.min.css">
-<!-- DataTables -->
-<link rel="stylesheet" href="<%=basePath%>assets/vender/datatables.net-bs/css/dataTables.bootstrap.min.css">
-<!-- Theme style -->
-<link rel="stylesheet" href="<%=basePath%>assets/vender/AdminLTE/css/AdminLTE.min.css">
-<!-- AdminLTE Skins. Choose a skin from the css/skins
- folder instead of downloading all of them to reduce the load. -->
-<link rel="stylesheet" href="<%=basePath%>assets/vender/AdminLTE/css/_all-skins.min.css">
-<link rel="stylesheet" href="<%=basePath%>assets/css/default.css">
+<script src="<%=basePath%>assets/vender/bootstrap/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>assets/vender/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="<%=basePath%>assets/vender/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="<%=basePath%>assets/vender/bootbox/bootbox.min.js"></script>
+<script src="<%=basePath%>assets/vender/spin/spin.min.js"></script>
+<!-- AdminLTE App -->
+<script src="<%=basePath%>assets/vender/AdminLTE/js/AdminLTE.min.js"></script>
+<script src="<%=basePath%>assets/js/default.js"></script>

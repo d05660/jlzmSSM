@@ -7,6 +7,7 @@ public class Emp {
     private String partment;
     private String tel;
     private String email;
+    private String tag;
     public Long getId() {
         return id;
     }
@@ -43,4 +44,11 @@ public class Emp {
     public void setEmail(String email) {
         this.email = email;
     }
+    public String getTag() {
+        return tag;
+    }
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+    
 }
