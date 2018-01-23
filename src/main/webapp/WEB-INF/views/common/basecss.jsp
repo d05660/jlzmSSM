@@ -8,6 +8,9 @@
 <link rel="stylesheet" href="<%=basePath%>assets/vender/bootstrap/css/bootstrap.min.css">
 <!-- Ionicons -->
 <link rel="stylesheet" href="<%=basePath%>assets/vender/Ionicons/css/ionicons.min.css">
+<!-- nprogress -->
+<link rel="stylesheet" href="<%=basePath%>assets/vender/nprogress/css/nprogress.min.css">
+<link rel="stylesheet" href="<%=basePath%>assets/vender/toastr/css/toastr.min.css">
 <!-- Font Awesome -->
 <link rel="stylesheet" href="<%=basePath%>assets/vender/font-awesome/css/font-awesome.min.css">
 <!-- DataTables -->

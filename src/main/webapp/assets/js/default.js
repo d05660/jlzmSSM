@@ -151,6 +151,67 @@ var DATA_TABLES = {
 			});
 			return false;
 		},
+		deleteObject: function (url, id, handleData) {
+            $.ajax({
+                type: "DELETE",
+                url: url + "/" + id,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: handleData,
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+            return false;
+        },
+        deleteMultiObject: function (url, jsonData, handleData) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: jsonData,
+                success: handleData,
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+            return false;
+        },
+        toastSuccess: function (msg) {
+            toastr.options = {
+                closeButton: true,
+                debug: false,
+                positionClass: "toast-top-right",
+                onclick: null,
+                showDuration: "300",
+                hideDuration: "1000",
+                timeOut: "2000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+            };
+            toastr.success(msg);
+        },
+        toastError: function (msg) {
+            toastr.options = {
+                closeButton: true,
+                debug: false,
+                positionClass: "toast-top-right",
+                onclick: null,
+                showDuration: "300",
+                hideDuration: "1000",
+                timeOut: "2000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: 'fadeOut'
+            };
+            toastr.error(msg);
+        },
 		table_ajax : function(wrapper, url, objectManager) {
 			return function(data, callback, settings) {// ajax配置为function,手动调用异步查询
 				// 手动控制遮罩
@@ -205,8 +266,64 @@ var DATA_TABLES = {
 	});
 })(jQuery);
 
+function deleteTableRow(selectedItems, url, table) {
+	var message;
+	var $this=table;
+	if (selectedItems && selectedItems.length) {
+		if (selectedItems.length === 1) {
+			message = "确定要删除 '" + selectedItems[0].username + "' 吗?";
+			bootbox.confirm({
+				size : "small",
+				title : "提示",
+			    message: message,
+			    buttons: {
+ 			        confirm: { label: '确定', className: 'btn-success' },
+ 			        cancel: { label: '取消', className: 'btn-danger' }
+ 			    },
+			    callback: function (result) {
+			    	if(result) {
+			    		$.deleteObject(url, selectedItems[0].id, function(data) {
+							$.toastSuccess("删除" + data.obj + "项纪录成功!!!");
+							$this.draw();
+						});
+			    	}
+			    }
+			});
+		 } else {
+             message = "确定要删除选中的" + selectedItems.length + "项记录吗?";
+             bootbox.confirm({
+ 				size : "small",
+ 				title : "提示",
+ 			    message: message,
+ 			    buttons: {
+ 			        confirm: { label: '确定', className: 'btn-success' },
+ 			        cancel: { label: '取消', className: 'btn-danger' }
+ 			    },
+ 			    callback: function (result) {
+ 			    	if(result) {
+ 			    		var saveDataAry=[];
+ 		                for (var i = 0; i < selectedItems.length; i++) {
+ 		                    saveDataAry.push(selectedItems[i].id);
+ 		                }
+ 		                $.deleteMultiObject(url + '/batch', JSON.stringify(saveDataAry), function (data) {
+ 		                    $.toastSuccess("删除" + data.obj + "项纪录成功!!!");
+ 		                    $this.draw();
+ 		                });
+ 			    	}
+			    	
+			    }    
+             });
+         }
+	} else {
+		bootbox.alert("请先选中要操作的行");
+	}
+}
+
 function initEmp() {
 	if (typeof ($.fn.DataTable) === 'undefined') {
+		return;
+	}
+	if (typeof (bootbox) === 'undefined') {
 		return;
 	}
 
@@ -214,7 +331,7 @@ function initEmp() {
 
 	var _table = $table.DataTable(
 		$.extend(true, {}, DATA_TABLES.DEFAULT_OPTION, {
-			ajax : $.table_ajax($wrapper, 'emp', {
+			ajax : $.table_ajax($wrapper, 'api/emps', {
 				currentItem : null,
 				fuzzySearch : true,
 				getQueryCondition : function(data) {
@@ -239,23 +356,6 @@ function initEmp() {
 					param.pageSize = data.length;
 					param.draw = data.draw;
 					return param;
-				},
-				deleteItem : function(selectedItems) {
-					var message;
-					var $this=$(this);
-					if (selectedItems && selectedItems.length) {
-						if (selectedItems.length === 1) {
-							message = "确定要删除 '" + selectedItems[0].title + "' 吗?";
-							$.dialog.confirmDanger(message, function() {
-								$.deleteObject("/backend/article", selectedItems[0].id, function(data) {
-									$.toastSuccess("删除" + data.result + "项纪录成功!!!");
-									$this.draw();
-								});
-							});
-						}
-					} else {
-						$.dialog.tips('请先选中要操作的行');
-					}
 				}
 			}),
 			columns : [
@@ -306,7 +406,7 @@ function initEmp() {
 			"drawCallback" : $.drawCallback($wrapper, $table)}
 		)
 	);
-
+	
 	$table.on("change",":checkbox", function() {
 		if ($(this).is("[name='cb-check-all']")) {
 			// 全选
@@ -320,18 +420,17 @@ function initEmp() {
 	}).on("click",".td-checkbox", function(event) {
 		// 点击单元格即点击复选框
 		!$(event.target).is(":checkbox") && $(":checkbox", this).trigger("click");
-	}).on("click", ".btn-preview", function() {
-		// 点击预览按钮
-		var item = _table.row($(this).closest('tr')).data();
-		window.location.href = "/web/article/" + item.wid + ".html";
-	}).on("click", ".btn-edit", function() {
-		// 点击编辑按钮
-		var item = _table.row($(this).closest('tr')).data();
-		window.location.href = "/backend/writeArticle?id=" + item.id;
-	}).on("click", ".btn-del", function() {
-		// 点击删除按钮
-		var item = _table.row($(this).closest('tr')).data();
-		articleManage.deleteItem([ item ]);
+	});
+	
+	$wrapper.on("click", ".btn-delete", function() {
+		var checkbox = $("tbody :checkbox", $table);
+        var items = [];
+        checkbox.filter(':checked').each(function () {
+            items.push(_table.row($(this).closest('tr')).data());
+        });
+        if(items.length > 0) {
+        	deleteTableRow(items, 'api/emps', _table);
+        }
 	});
 
 	$('#page').val(_table.page.len());
@@ -371,6 +470,17 @@ function logout() {
 			}
 		}
 	});
+}
+
+//NProgress
+if (typeof NProgress != 'undefined') {
+    $(document).ready(function () {
+        NProgress.start();
+    });
+
+    $(window).load(function () {
+        NProgress.done();
+    });
 }
 
 $(document).ready(function() {

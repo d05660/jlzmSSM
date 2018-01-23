@@ -3,6 +3,9 @@
 <script src="<%=basePath%>assets/vender/jquery/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="<%=basePath%>assets/vender/bootstrap/js/bootstrap.min.js"></script>
+<!-- nprogress -->
+<script src="<%=basePath%>assets/vender/nprogress/js/nprogress.min.js"></script>
+<script src="<%=basePath%>assets/vender/toastr/js/toastr.min.js"></script>
 <script src="<%=basePath%>assets/vender/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="<%=basePath%>assets/vender/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <script src="<%=basePath%>assets/vender/bootbox/bootbox.min.js"></script>

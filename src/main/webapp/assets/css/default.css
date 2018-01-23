@@ -16,3 +16,23 @@
   text-align: left;
   vertical-align: middle;
 }
+
+.table_page_length{
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.table_page_length select{
+    width: 60px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.table_page_length label {
+    font-weight: normal;
+    text-align: left;
+    white-space: nowrap;
+}

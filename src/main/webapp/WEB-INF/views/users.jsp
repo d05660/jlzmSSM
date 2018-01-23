@@ -33,10 +33,10 @@
             <div class="box-body" id="emp-container">
               <div class="mailbox-controls no-padding">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm">
+                  <button type="button" class="btn btn-default btn-sm " data-toggle="modal" data-target="#modal-default">
                     <i class="fa fa-trash-o"></i> 新增
                   </button>
-                  <button type="button" class="btn btn-default btn-sm">
+                  <button type="button" class="btn btn-default btn-sm btn-delete">
                     <i class="fa fa-reply"></i> 刪除
                   </button>
                   <button type="button" class="btn btn-default btn-sm">
@@ -47,6 +47,19 @@
                 <button type="button" class="btn btn-default btn-sm">
                   <i class="fa fa-refresh"></i> 導入
                 </button>
+                <div class="pull-right">
+                  <div class="table_page_length">
+                    <label>每页
+                      <select id="page" name="page" class="form-control input-sm">
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="30">30</option>
+                      </select> 项
+                    </label>
+                  </div>
+                  <!-- /.btn-group -->
+                </div>
+                <!-- /.pull-right -->
               </div>
               <table class="table table-striped table-bordered table-hover nowrap" id="emp-table">
                 <thead>
@@ -69,6 +82,54 @@
         </div>
       </div>
       <!-- /.row (main row) -->
+      <div class="modal fade" id="modal-default">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Default Modal</h4>
+              </div>
+              <div class="modal-body">
+                <!-- form start -->
+                <form class="form-horizontal">
+                  <div class="box-body">
+                    <div class="form-group">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+    
+                      <div class="col-sm-10">
+                        <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+    
+                      <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> Remember me
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
     </section>
     <!-- /.content -->
   </div>

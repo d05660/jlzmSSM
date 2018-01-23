@@ -36,7 +36,7 @@ public abstract class BaseController {
      * @param msg 失败的消息
      * @return {Object}
      */
-    public Object renderError(String msg) {
+    public Result renderError(String msg) {
         Result result = new Result();
         result.setMsg(msg);
         return result;
@@ -46,7 +46,7 @@ public abstract class BaseController {
      * ajax成功
      * @return {Object}
      */
-    public Object renderSuccess() {
+    public Result renderSuccess() {
         Result result = new Result();
         result.setSuccess(true);
         return result;
@@ -57,7 +57,7 @@ public abstract class BaseController {
      * @param msg 消息
      * @return {Object}
      */
-    public Object renderSuccess(String msg) {
+    public Result renderSuccess(String msg) {
         Result result = new Result();
         result.setSuccess(true);
         result.setMsg(msg);
@@ -69,7 +69,7 @@ public abstract class BaseController {
      * @param obj 成功时的对象
      * @return {Object}
      */
-    public Object renderSuccess(Object obj) {
+    public Result renderSuccess(Object obj) {
         Result result = new Result();
         result.setSuccess(true);
         result.setObj(obj);
