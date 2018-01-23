@@ -41,7 +41,7 @@
     VALUES (#{userid},#{username},#{partment},#{tel},#{email})
   </insert>
 
-  <update id="update" parameterType="User">
+  <update id="update" parameterType="Emp">
     UPDATE `emp` 
     <set>
       <if test="userid != null">
