@@ -97,6 +97,7 @@
     <!-- url上带sessionId 默认为true -->
     <property name="sessionIdUrlRewritingEnabled" value="false" />
     <property name="sessionDAO" ref="sessionDAO" />
+    <property name="sessionIdCookieEnabled" value="true"/>
     <property name="sessionIdCookie" ref="simpleCookie"/>
   </bean>
   

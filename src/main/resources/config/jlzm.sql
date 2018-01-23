@@ -220,8 +220,8 @@ CREATE TABLE `sys_users`  (
 -- ----------------------------
 -- Records of sys_users
 -- ----------------------------
-INSERT INTO `sys_users` VALUES (1, 'david', '5e0c234f74aeb660a829b802b9da2e9d91ff53af', 0);
-INSERT INTO `sys_users` VALUES (2, 'ddw', '17626d12d8599b78c121afbe0da2009f84afcb6549f804b5a1dc36d10565965c', 0);
+INSERT INTO `sys_users` VALUES (1, 'admin', '$shiro1$SHA-256$50000$i/lQ+UlZk2d37NWAj1XgEg==$tO6qfpgkYE/spbTiLzdnaAlBotVJnG0+lOFYVbQY5sQ=', 0);
+INSERT INTO `sys_users` VALUES (2, 'ddw', '$shiro1$SHA-256$50000$Orz1I7i8b3dAgDAyG9GUXg==$Znb9QvJH3f7KLJBYU3DWxFtq1jxVxvH0LVQ3NfUx+WI=', 0);
 
 -- ----------------------------
 -- Table structure for sys_users_roles

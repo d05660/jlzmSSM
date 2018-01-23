@@ -38,6 +38,8 @@
     <appender-ref ref="file" />
   </logger>
 
+  <logger name="net.sf.ehcache.Cache" level="info" />
+  <logger name="org.apache.shiro.web.servlet.SimpleCookie" level="info" />
   <logger name="org.mybatis" level="info" />
 
   <root level="debug">
