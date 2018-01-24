@@ -25,7 +25,7 @@
     <section class="content">
       <div class="row">
         <div class="col-xs-12">
-          <div class="box">
+          <div class="box box-info">
             <div class="box-header">
               <h3 class="box-title">开发部花名册</h3>
             </div>
@@ -42,8 +42,8 @@
                 </div>
                 <!-- /.btn-group -->
                 <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm btn-import">
-                    <i class="fa fa-upload"></i> 导入
+                  <button type="button" class="btn btn-default btn-sm btn-import" data-toggle="modal" data-target="#emp-upload-dialog">
+                    <i class="fa fa-upload"></i> 导入 
                   </button>
                   <button type="button" class="btn btn-default btn-sm btn-export">
                     <i class="fa fa-download"></i> 导出
@@ -159,6 +159,34 @@
           <!-- /.modal-dialog -->
         </div>
         <!-- /.modal -->
+        <div class="modal fade" id="emp-upload-dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">导入</h4>
+              </div>
+              <div class="modal-body">
+                <!-- form start -->
+                <form class="form-horizontal" id="emp-upload-form">
+                  <div class="box-body">
+                    <div class="file-loading">
+                      <input id="uploadExcel" name="uploadExcel" multiple type="file"'>
+                    </div>
+                    <div id="kartik-file-errors"></div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-close"></i> 关闭</button>
+                <button type="button" class="btn btn-primary" id="submit_upload_emp"><i class="fa fa-check"></i> 导入 </button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
     </section>
     <!-- /.content -->
   </div>

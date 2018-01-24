@@ -1,13 +1,13 @@
 package org.cloud.ssm.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.cloud.ssm.common.Result;
 import org.cloud.ssm.domain.Emp;
 import org.cloud.ssm.service.IEmpService;
 import org.cloud.ssm.utils.ExcelUtils;
@@ -17,8 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Controller
 public class IndexController {
@@ -60,21 +62,29 @@ public class IndexController {
         List<Emp> list = empService.getAll();
         ExcelUtils.export(columns, titles, list, excelFileName, response);
     }
-
+    
     /**
-     * 页面查询
+     * 导入
+     * @param request
+     * @param response
+     * @param session
+     * @return
+     * @throws Exception
      */
-    @GetMapping("/emp")
+    @PostMapping("/importEmp")
     @ResponseBody
-    public Map<String, Object> listArticle(@RequestParam String draw, @RequestParam int startIndex,
-            @RequestParam int pageSize,
-            @RequestParam(value = "orderColumn", required = false, defaultValue = "id") String orderColumn,
-            @RequestParam(value = "orderDir", required = false, defaultValue = "desc") String orderDir) {
-        Map<String, Object> info = new HashMap<>();
-        info.put("pageData", empService.getAllByOrder(orderColumn, orderDir, startIndex, pageSize));
-        info.put("total", empService.getCount(new Emp()));
-        info.put("draw", draw);
-        return info;
+    public Result importCalendarFromExcel(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+            throws Exception {
+        Result result = new Result();
+        result.setSuccess(false);
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile file = multipartRequest.getFile("uploadExcel");
+        String[] titleColumn = {"userid", "username", "password", "partment", "tel", "email" };
+        List<Emp> list = ExcelUtils.getObjectListFromExcel(file, 1, titleColumn, Emp.class);
+        long count = empService.saveBatch(list);
+        if (count > 0) {
+            result.setSuccess(true);
+        }
+        return result;
     }
-
 }

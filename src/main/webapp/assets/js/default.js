@@ -179,6 +179,20 @@ var DATA_TABLES = {
             });
             return false;
         },
+        uploadFormObject: function (url, formData, handleData) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: handleData,
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+            return false;
+        },
 		deleteObject: function (url, id, handleData) {
             $.ajax({
                 type: "DELETE",
@@ -429,8 +443,18 @@ function initEmp() {
     if (typeof (parsley) === 'undefined') {
         return;
     }
+    if (typeof ($.fn.fileinput) === 'undefined') {
+        return;
+    }
 
 	var $wrapper = $("#emp-container"), $table = $("#emp-table");
+	
+	$("#uploadExcel").fileinput({
+        showPreview: false,
+        showUpload: false,
+        elErrorContainer: '#kartik-file-errors',
+        allowedFileExtensions: ["xls", "xlsx", "xlsm"]
+    });
 
 	var _table = $table.DataTable(
 		$.extend(true, {}, DATA_TABLES.DEFAULT_OPTION, {
@@ -539,17 +563,31 @@ function initEmp() {
         if(items.length > 0) {
         	deleteTableRow(items, 'api/emps', _table);
         }
+	}).on("click", ".btn-export", function() {
+		window.location.href="exportEmp";
 	});
 	
-	$wrapper.on("click", ".btn-export", function() {
-		window.location.href="exportEmp";
+	$('#submit_upload_emp').on("click", function () {
+		$myModal = $('#emp-upload-dialog');
+		var url = "importEmp";
+		var formData = new FormData();
+	    formData.append('uploadExcel', $('#uploadExcel')[0].files[0]);
+	    $.uploadFormObject(url, formData, function (data) {
+            if (data.success) {
+            	$.toastSuccess("上传成功!!!");
+            } else {
+            	$.toastError("上传失败!!!");
+            }
+            $myModal.modal('hide');
+            _table.draw();
+        });
 	});
 	
 	$('#submit_emp').on("click", function () {
 		var $myForm = $('#emp-form'),
 			url = "api/emps",
 	    	$emp_id = $('#hidden_id'),
-	    	$myModal = $('#modal-default');
+	    	$myModal = $('#emp-modal-dialog');
 		
 		if (!$myForm.validate()) {
             return false;
@@ -589,6 +627,7 @@ function initEmp() {
 		var pageLength = $('#page').val();
 		_table.page.len(pageLength).draw();
 	});
+
 }
 
 function logout() {

@@ -11,6 +11,8 @@ import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFPalette;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -29,6 +32,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.multipart.MultipartFile;
 
 public class ExcelUtils<T> {
     
@@ -235,5 +240,136 @@ public class ExcelUtils<T> {
         }
         return style;
     }
+    
+    /**
+     * 获取指定字段的字符串表示
+     * 
+     * @param cell
+     * @return
+     */
+    private static String getCellValue(Cell cell) {
+        String value = "";
+        switch (cell.getCellTypeEnum()) {
+        case STRING:
+            value = cell.getStringCellValue();
+            break;
+        case NUMERIC:
+            if (HSSFDateUtil.isCellDateFormatted(cell)) {
+                Date date = cell.getDateCellValue();
+                if (null != date) {
+                    value = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                } else {
+                    value = "";
+                }
+            } else {
+                value = new DecimalFormat("0").format(cell.getNumericCellValue());
+            }
+            break;
+        case BOOLEAN:
+            value = cell.getBooleanCellValue() == true ? "true" : "false";
+            break;
+        case BLANK:
+            value = "";
+            break;
+        default:
+            break;
+        }
+        return value;
+    }
+    
+    /**
+     * 获取workbook
+     * 
+     * @param inStr
+     * @param fileName
+     * @return
+     * @throws Exception
+     */
+    private static Workbook getWorkbook(InputStream inStr, String fileName) throws Exception {
+        Workbook wb = null;
+        String fileType = fileName.substring(fileName.lastIndexOf("."));
+        if (".xls".equals(fileType)) {
+            wb = new HSSFWorkbook(inStr);
+        } else if (".xlsx".equals(fileType)) {
+            wb = new XSSFWorkbook(inStr);
+        } else {
+            throw new Exception("解析的文件格式有误!");
+        }
+        return wb;
+    }
+    
+    /**
+     * EXCEL表格导入
+     * 
+     * @param filename
+     * @param ignoreRows
+     * @param columnNum
+     * @return
+     * @throws Exception
+     */
+    public static <T> List<T> getObjectListFromExcel(MultipartFile file, int ignoreRows, String[] titleColumn, 
+            Class<T> clazz) throws Exception {
+        List<List<String>> rowList = getData(file, ignoreRows, titleColumn.length);
+        List<T> returnList = new ArrayList<T>();
+        for (List<String> columnList : rowList) {
+            T obj = clazz.newInstance();
+            Method[] methods = clazz.getDeclaredMethods();
+            for (int i = 0; i < titleColumn.length; i++) {
+                for (Method m : methods) {
+                    if (m.getName().startsWith("set")) {
+                        String methodName = titleColumn[i];
+                        StringBuffer sb = new StringBuffer(methodName);
+                        sb.replace(0, 1, (methodName.charAt(0) + "").toUpperCase());
+                        methodName = "set" + sb.toString();
+                        if (methodName.equals(m.getName())) {
+                            m.invoke(obj, columnList.get(i));
+                            break;
+                        }
+                    }
+                }
+            }
+            returnList.add(obj);
+        }
+        System.out.println("size=" + returnList.size());
+        return returnList;
+    }
+
+    
+    /**
+     * EXCEL表格导入
+     * 
+     * @param filename
+     * @param ignoreRows
+     * @param columnNum
+     * @return
+     * @throws Exception
+     */
+    public static List<List<String>> getData(MultipartFile file, int ignoreRows, int columnNum) throws Exception {
+        Workbook work = getWorkbook(file.getInputStream(), file.getOriginalFilename());
+        List<List<String>> result = new ArrayList<>();
+        Cell cell = null;
+        for (int sheetIndex = 0; sheetIndex < work.getNumberOfSheets(); sheetIndex++) {
+            Sheet sheet = work.getSheetAt(sheetIndex);
+            for (int rowIndex = ignoreRows; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+                Row row = sheet.getRow(rowIndex);
+                if (null == row) {
+                    continue;
+                }
+                String[] values = new String[columnNum];
+                Arrays.fill(values, "");
+                for (int columnIndex = 0; columnIndex < columnNum; columnIndex++) {
+                    cell = row.getCell(columnIndex);
+                    if (cell == null) {
+                        values[columnIndex] = "";
+                    } else {
+                        values[columnIndex] = getCellValue(cell);
+                    }
+                }
+                result.add(Arrays.asList(values));
+            }
+        }
+        return result;
+    }
+
 
 }

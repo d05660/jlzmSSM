@@ -9,4 +9,7 @@ public interface IEmpService extends IBaseService<Emp> {
     
     List<Emp> getAllByOrder(String column, String orderDir, int pageNum, int pageSize);
 
+    Long saveBatch(List<Emp> list);
+
+    Long updateBatch(List<Emp> list);
 }

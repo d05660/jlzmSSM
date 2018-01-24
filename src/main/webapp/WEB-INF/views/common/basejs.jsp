@@ -5,6 +5,7 @@
 <script src="<%=basePath%>assets/vender/parsley/parsley.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="<%=basePath%>assets/vender/bootstrap/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>assets/vender/bootstrap-fileinput/js/fileinput.min.js"></script>
 <!-- nprogress -->
 <script src="<%=basePath%>assets/vender/nprogress/js/nprogress.min.js"></script>
 <script src="<%=basePath%>assets/vender/toastr/js/toastr.min.js"></script>
