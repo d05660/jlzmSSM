@@ -1,6 +1,7 @@
 package org.cloud.ssm.service.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
@@ -43,6 +44,7 @@ public class EmpServiceImpl extends BaseServiceImpl<EmpMapper, Emp> implements I
             int batchCount = 500;
             for (int index = 0; index < list.size(); index++) {
                 Emp emp = list.get(index);
+                emp.setUserid(UUID.randomUUID().toString());
                 batchSqlSession.getMapper(EmpMapper.class).insert(emp);
                 if (index != 0 && index % batchCount == 0) {
                     batchSqlSession.commit();

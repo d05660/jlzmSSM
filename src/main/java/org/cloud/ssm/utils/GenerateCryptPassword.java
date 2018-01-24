@@ -1,5 +1,7 @@
 package org.cloud.ssm.utils;
 
+import java.util.UUID;
+
 import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.apache.shiro.crypto.hash.DefaultHashService;
 
@@ -16,7 +18,7 @@ public class GenerateCryptPassword {
         passwordService.setHashService(hashService);
         String encryptedPassword = passwordService.encryptPassword("123456");
         System.out.println(encryptedPassword);
-
+        System.out.println(UUID.randomUUID());
     }
 
 }

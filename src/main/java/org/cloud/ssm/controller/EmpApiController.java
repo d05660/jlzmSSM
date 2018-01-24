@@ -35,7 +35,7 @@ public class EmpApiController extends BaseController {
     public Map<String, Object> listEmp(@RequestParam String draw, @RequestParam int startIndex,
             @RequestParam int pageSize,
             @RequestParam(value = "orderColumn", required = false, defaultValue = "id") String orderColumn,
-            @RequestParam(value = "orderDir", required = false, defaultValue = "desc") String orderDir) {
+            @RequestParam(value = "orderDir", required = false, defaultValue = "asc") String orderDir) {
         Map<String, Object> info = new HashMap<>();
         info.put("pageData", empService.getAllByOrder(orderColumn, orderDir, startIndex, pageSize));
         info.put("total", empService.getCount(new Emp()));
