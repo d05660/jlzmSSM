@@ -24,26 +24,28 @@
           <span>主页</span>
         </a>
       </li>
-      <li class="treeview active">
+      <li class="treeview">
         <a href="#">
           <i class="fa fa-files-o"></i>
-          <span>人员管理</span>
-          <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
+          <span>人员管理</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
         </a>
         <ul class="treeview-menu">
           <li>
-            <a href="userList">
-              <i class="fa fa-circle-o"></i>
-              花名册
-            </a>
+            <a href="<%=basePath%>empList"><i class="fa fa-circle-o"></i> 花名册 </a>
           </li>
           <li>
-            <a href="partmentList">
-              <i class="fa fa-circle-o"></i>
-              部门管理
-            </a>
+            <a href="<%=basePath%>partmentList"> <i class="fa fa-circle-o"></i> 部门管理 </a>
+          </li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-files-o"></i>
+          <span>项目管理</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+        </a>
+        <ul class="treeview-menu">
+          <li>
+            <a href="<%=basePath%>usersList"><i class="fa fa-circle-o"></i> 项目列表 </a>
           </li>
         </ul>
       </li>

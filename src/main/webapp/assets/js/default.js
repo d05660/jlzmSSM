@@ -661,6 +661,30 @@ function logout() {
 	});
 }
 
+var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
+	$BODY = $('body'),
+	$SIDEBAR_MENU = $('.sidebar-menu');
+
+//Sidebar
+function init_sidebar() {
+
+	$SIDEBAR_MENU.find('a').on('click', function (ev) {
+		var $li = $(this).parents('li.treeview');
+		if (!$li.is('.menu-open')) {
+			$li.siblings(".treeview").removeClass("active");
+			$li.addClass('active');
+		}
+	});
+	
+	// check active menu
+	//$SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('active');
+	$SIDEBAR_MENU.find('a').filter(function () {
+	    return this.href == CURRENT_URL;
+	}).parents('li.treeview').addClass('active');
+
+}
+///Sidebar
+
 //NProgress
 if (typeof NProgress != 'undefined') {
     $(document).ready(function () {
@@ -674,4 +698,5 @@ if (typeof NProgress != 'undefined') {
 
 $(document).ready(function() {
 	initEmp();
+	init_sidebar();
 });

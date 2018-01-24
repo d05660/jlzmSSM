@@ -42,9 +42,18 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("/userList")
+    @GetMapping("/empList")
+    public String getEmpPage(Model model) {
+        return "emps";
+    }
+    
+    @GetMapping("/partmentList")
+    public String getPartmentPage(Model model) {
+        return "partment";
+    }
+    
+    @GetMapping("/usersList")
     public String getUsersPage(Model model) {
-        // model.addAttribute("users", userService.getAllUsers());
         return "users";
     }
     

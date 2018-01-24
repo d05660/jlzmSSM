@@ -42,7 +42,7 @@
   <logger name="org.apache.shiro.web.servlet.SimpleCookie" level="info" />
   <logger name="org.mybatis" level="info" />
 
-  <root level="debug">
+  <root level="info">
     <appender-ref ref="stdout" /> <!-- 标识这个appender将会添加到这个logger -->
     <appender-ref ref="file" />
   </root>

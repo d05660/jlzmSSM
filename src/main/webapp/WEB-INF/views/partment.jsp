@@ -18,7 +18,7 @@
       <h1> Dashboard <small>Control panel</small> </h1>
       <ol class="breadcrumb">
         <li> <a href="#"> <i class="fa fa-dashboard"></i> Home </a> </li>
-        <li class="active">Dashboard</li>
+        <li class="active">部门管理</li>
       </ol>
     </section>
     <!-- Main content -->
@@ -27,7 +27,7 @@
         <div class="col-xs-12">
           <div class="box box-info">
             <div class="box-header">
-              <h3 class="box-title">项目列表</h3>
+              <h3 class="box-title"> 部门管理 </h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body" id="emp-container">

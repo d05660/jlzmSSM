@@ -23,6 +23,7 @@ import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFPalette;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -56,8 +57,8 @@ public class ExcelUtils<T> {
      */
     public final static <T> Workbook export(String[] titleColumn, String[] titleName, List<T> dataList) {
         HSSFWorkbook wb = new HSSFWorkbook();
-        Sheet sheet = wb.createSheet("sheet1");
-        sheet.autoSizeColumn(1);
+        HSSFSheet sheet = wb.createSheet("sheet1");
+        
         try {
             // 写入excel的表头
             Row row = sheet.createRow(0);
@@ -120,6 +121,9 @@ public class ExcelUtils<T> {
                         }
                     }
                 }
+            }
+            for (int i = 0; i < titleName.length; i++) {
+                sheet.autoSizeColumn(i);
             }
             return wb;
         } catch (Exception e) {
