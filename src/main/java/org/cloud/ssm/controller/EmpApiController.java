@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,6 +42,26 @@ public class EmpApiController extends BaseController {
         info.put("draw", draw);
         return info;
     }
+    
+    /**
+     * 新增
+     */
+    @PostMapping("/emps")
+    @ResponseBody
+    public Result addEmp(@RequestBody Emp emp) {
+        return renderSuccess(empService.save(emp));
+    }
+    
+    /**
+     * 更新
+     */
+    @PutMapping("/emps/{empId}")
+    @ResponseBody
+    public Result updateEmp(@PathVariable String empId, @RequestBody Emp emp) {
+        emp.setId(Long.parseLong(empId));
+        return renderSuccess(empService.save(emp));
+    }
+
     
     /** 删除 */
     @DeleteMapping("/emps/{id}")

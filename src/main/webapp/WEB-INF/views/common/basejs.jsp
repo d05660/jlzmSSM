@@ -1,6 +1,8 @@
 <%--标签 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <script src="<%=basePath%>assets/vender/jquery/jquery.min.js"></script>
+<script src="<%=basePath%>assets/vender/jquery/jquery.serialize-object.min.js"></script>
+<script src="<%=basePath%>assets/vender/parsley/parsley.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="<%=basePath%>assets/vender/bootstrap/js/bootstrap.min.js"></script>
 <!-- nprogress -->

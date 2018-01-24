@@ -151,6 +151,34 @@ var DATA_TABLES = {
 			});
 			return false;
 		},
+		addNewJSONObject: function (url, jsonData, handleData) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(jsonData),
+                success: handleData,
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+            return false;
+        },
+        updateJSONOObject: function (url, id, jsonData, handleData) {
+            $.ajax({
+                type: "PUT",
+                url: url + "/" + id,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(jsonData),
+                success: handleData,
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+            return false;
+        },
 		deleteObject: function (url, id, handleData) {
             $.ajax({
                 type: "DELETE",
@@ -266,6 +294,61 @@ var DATA_TABLES = {
 	});
 })(jQuery);
 
+jQuery.fn.extend({
+	loadJson: function(jsonValue) {
+	    var obj = this;
+	    $.each(jsonValue, function(name, ival) {
+	        var $oinput = obj.find(":input [name=" + name + "]");
+	        if ($oinput.attr("type") == "radio" || $oinput.attr("type") == "checkbox") {
+	            $oinput.each(function() {
+	                if (Object.prototype.toString.apply(ival) == '[object Array]') {//是复选框，并且是数组         
+	                    for (var i = 0; i < ival.length; i++) {
+	                        if ($(this).val() == ival[i])
+	                            $(this).attr("checked", "checked");
+	                    }
+	                } else {
+	                    if ($(this).val() == ival)
+	                        $(this).attr("checked", "checked");
+	                }
+	            });
+	        } else if ($oinput.attr("type") == "textarea") {//多行文本框            
+	            obj.find("[name=" + name + "]").html(ival);
+	        } else {
+	            obj.find("[name=" + name + "]").val(ival);
+	        }
+	    });
+	}
+});
+
+(function () {
+    function Validator($element) {
+        this.$container = $element;
+        this.$bsCalloutInfo = this.$container.find('.bs-callout-info');
+        this.$bsCalloutWarnin = this.$container.find('bs-callout-warnin');
+    }
+
+    Validator.prototype = {
+        constructor: Validator,
+
+        validate: function () {
+            this.$container.parsley().validate();
+            if (true === this.$container.parsley().isValid()) {
+                this.$bsCalloutInfo.removeClass('hidden');
+                this.$bsCalloutWarnin.addClass('hidden');
+                return true;
+            } else {
+                this.$bsCalloutInfo.addClass('hidden');
+                this.$bsCalloutWarnin.removeClass('hidden');
+                return false;
+            }
+        }
+    };
+    $.fn.validate = function () {
+        var validator = new Validator(this);
+        return validator.validate();
+    };
+})();
+
 function deleteTableRow(selectedItems, url, table) {
 	var message;
 	var $this=table;
@@ -319,6 +402,20 @@ function deleteTableRow(selectedItems, url, table) {
 	}
 }
 
+function uuid() {  
+    var s = [];  
+    var hexDigits = "0123456789abcdef";  
+    for (var i = 0; i < 36; i++) {  
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);  
+    }  
+    s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010  
+    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01  
+    s[8] = s[13] = s[18] = s[23] = "-";  
+   
+    var uuid = s.join("");  
+    return uuid;  
+}
+
 function initEmp() {
 	if (typeof ($.fn.DataTable) === 'undefined') {
 		return;
@@ -326,6 +423,12 @@ function initEmp() {
 	if (typeof (bootbox) === 'undefined') {
 		return;
 	}
+	if (typeof (toastr) === 'undefined') {
+        return;
+    }
+    if (typeof (parsley) === 'undefined') {
+        return;
+    }
 
 	var $wrapper = $("#emp-container"), $table = $("#emp-table");
 
@@ -360,21 +463,9 @@ function initEmp() {
 			}),
 			columns : [
 			    DATA_TABLES.COLUMN.CHECKBOX,
-			    {
-					data : "id",
-					visible : false
-				}, {
-					className : "ellipsis", // 文字过长时用省略号显示，CSS实现
-					data : "userid",
-					orderable : false,
-					render : DATA_TABLES.RENDER.ELLIPSIS
-					// 会显示省略号的列，需要用title属性实现划过时显示全部文本的效果
-				}, {
-					className : "ellipsis",
-					data : "username",
-					render : DATA_TABLES.RENDER.ELLIPSIS,
-					width : "50px"
-				}, {
+			    {data : "id",visible : false}, 
+			    {className : "ellipsis", data : "userid",orderable : false, render : DATA_TABLES.RENDER.ELLIPSIS}, 
+				{className : "ellipsis", data : "username",render : DATA_TABLES.RENDER.ELLIPSIS,width : "50px"}, {
 					className : "ellipsis",
 					data : "partment",
 					render : DATA_TABLES.RENDER.ELLIPSIS,
@@ -392,16 +483,22 @@ function initEmp() {
 					render : DATA_TABLES.RENDER.ELLIPSIS,
 					width : "80px"
 				}, {
-					data : "tag",
-					orderable : false,
-					width : "120px"
-				} ],
+	                className: "td-operation",
+	                data: null,
+	                defaultContent: "",
+	                orderable: false,
+	                width: "80px"
+	            }
+			],
 			"createdRow" : function(row, data, index) {
 				// 行渲染回调,在这里可以对该行dom元素进行任何操作
 				// 给当前行加样式
 				if (data.role) {
 					$(row).addClass("info");
 				}
+				var $btnEdit = $('<span><button type="button" class="btn btn-xs btn-success btn-edit btn-opt" data-toggle="modal" data-target="#modal-default">修改</button></span>');
+	            var $btnDel = $('<span><button type="button" class="btn btn-xs btn-danger btn-del btn-opt">删除</button></span>');
+	            $('td', row).eq(6).append($btnEdit).append($btnDel);
 			},
 			"drawCallback" : $.drawCallback($wrapper, $table)}
 		)
@@ -420,7 +517,18 @@ function initEmp() {
 	}).on("click",".td-checkbox", function(event) {
 		// 点击单元格即点击复选框
 		!$(event.target).is(":checkbox") && $(":checkbox", this).trigger("click");
-	});
+	}).on("click", ".btn-edit", function () {
+        //点击编辑按钮
+        var item = _table.row($(this).closest('tr')).data();
+        if (!item) {
+            return;
+        }
+        $('#emp-form').loadJson(item);
+    }).on("click", ".btn-del", function () {
+        //点击删除按钮
+        var item = _table.row($(this).closest('tr')).data();
+        deleteTableRow([item], 'api/emps', _table);
+    });
 	
 	$wrapper.on("click", ".btn-delete", function() {
 		var checkbox = $("tbody :checkbox", $table);
@@ -431,6 +539,44 @@ function initEmp() {
         if(items.length > 0) {
         	deleteTableRow(items, 'api/emps', _table);
         }
+	});
+	
+	$('#submit_emp').on("click", function () {
+		var $myForm = $('#emp-form'),
+			url = "api/emps",
+	    	$emp_id = $('#hidden_id'),
+	    	$myModal = $('#modal-default');
+		
+		if (!$myForm.validate()) {
+            return false;
+        }
+	    
+	    var jsonObj = $myForm.serializeObject();
+	    
+	    if ($emp_id.val()) {
+	    	var id = $emp_id.val();
+	        $.updateJSONObject(url, id, jsonObj, function (data) {
+	            if (data.obj) {
+	            	$myForm[0].reset();
+	            	$.toastSuccess("更新类别成功!!!");
+	            } else {
+	            	$.toastError("更新类别失败!!!");
+	            }
+	            $myModal.modal('hide');
+	            _table.draw();
+	        });
+	    } else {
+	        $.addNewJSONObject(url, jsonObj, function (data) {
+	            if (data.obj) {
+	            	$myForm[0].reset();
+	            	$.toastSuccess("添加类别成功!!!");
+	            } else {
+	            	 $.toastError("添加类别失败!!!");
+	            }
+	            $myModal.modal('hide');
+	            _table.draw();
+	        });
+	    }
 	});
 
 	$('#page').val(_table.page.len());

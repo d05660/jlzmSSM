@@ -7,6 +7,7 @@
     <id column="id" property="id"></id>
     <result column="userid" property="userid" />
     <result column="username" property="username" />
+    <result column="password" property="password" />
     <result column="partment" property="partment" />
     <result column="tel" property="tel" />
     <result column="email" property="email" />
@@ -37,8 +38,8 @@
   </delete>
 
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="Emp">
-    INSERT INTO `emp` (userid,username,partment,tel,email)
-    VALUES (#{userid},#{username},#{partment},#{tel},#{email})
+    INSERT INTO `emp` (userid,username,password,partment,tel,email)
+    VALUES (#{userid},#{username},#{password},#{partment},#{tel},#{email})
   </insert>
 
   <update id="update" parameterType="Emp">
@@ -49,6 +50,9 @@
       </if>
       <if test="username != null">
         username = #{username},
+      </if>
+      <if test="password != null">
+        password = #{password},
       </if>
       <if test="partment != null">
         partment = #{partment},
