@@ -496,7 +496,7 @@ function initEmp() {
 				if (data.role) {
 					$(row).addClass("info");
 				}
-				var $btnEdit = $('<span><button type="button" class="btn btn-xs btn-success btn-edit btn-opt" data-toggle="modal" data-target="#modal-default">修改</button></span>');
+				var $btnEdit = $('<span><button type="button" class="btn btn-xs btn-success btn-edit btn-opt" data-toggle="modal" data-target="#emp-modal-dialog">修改</button></span>');
 	            var $btnDel = $('<span><button type="button" class="btn btn-xs btn-danger btn-del btn-opt">删除</button></span>');
 	            $('td', row).eq(6).append($btnEdit).append($btnDel);
 			},
@@ -539,6 +539,10 @@ function initEmp() {
         if(items.length > 0) {
         	deleteTableRow(items, 'api/emps', _table);
         }
+	});
+	
+	$wrapper.on("click", ".btn-export", function() {
+		window.location.href="exportEmp";
 	});
 	
 	$('#submit_emp').on("click", function () {

@@ -33,20 +33,22 @@
             <div class="box-body" id="emp-container">
               <div class="mailbox-controls no-padding">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm " data-toggle="modal" data-target="#modal-default">
-                    <i class="fa fa-trash-o"></i> 新增
+                  <button type="button" class="btn btn-default btn-sm " data-toggle="modal" data-target="#emp-modal-dialog">
+                    <i class="fa fa-plus-square"></i> 新增
                   </button>
                   <button type="button" class="btn btn-default btn-sm btn-delete">
-                    <i class="fa fa-reply"></i> 批量刪除
-                  </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fa fa-reply"></i> 批量刪除
+                    <i class="fa fa-trash-o"></i> 批量刪除
                   </button>
                 </div>
                 <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm">
-                  <i class="fa fa-refresh"></i> 導入
-                </button>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default btn-sm btn-import">
+                    <i class="fa fa-upload"></i> 导入
+                  </button>
+                  <button type="button" class="btn btn-default btn-sm btn-export">
+                    <i class="fa fa-download"></i> 导出
+                  </button>
+                </div>
                 <div class="pull-right">
                   <div class="table_page_length">
                     <label>每页
@@ -82,7 +84,7 @@
         </div>
       </div>
       <!-- /.row (main row) -->
-      <div class="modal fade" id="modal-default">
+      <div class="modal fade" id="emp-modal-dialog">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">

@@ -1,10 +1,16 @@
 package org.cloud.ssm.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.cloud.ssm.domain.Emp;
 import org.cloud.ssm.service.IEmpService;
+import org.cloud.ssm.utils.ExcelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +45,24 @@ public class IndexController {
         // model.addAttribute("users", userService.getAllUsers());
         return "users";
     }
+    
+    /**
+     * 导出emp
+     * @param request
+     * @param response
+     * @throws IOException 
+     */
+    @GetMapping("/exportEmp")  
+    public void exportBooks(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        String excelFileName = "図書一覧";
+        String[] titles = { "编号", "用户名", "密码" , "部门", "电话", "邮箱"};
+        String[] columns = {"userid", "username", "password", "partment", "tel", "email" };
+        List<Emp> list = empService.getAll();
+        ExcelUtils.export(columns, titles, list, excelFileName, response);
+    }
 
     /**
-     * 查询
+     * 页面查询
      */
     @GetMapping("/emp")
     @ResponseBody
