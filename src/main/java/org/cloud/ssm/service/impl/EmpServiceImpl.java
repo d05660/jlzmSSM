@@ -10,6 +10,7 @@ import org.cloud.ssm.common.base.BaseServiceImpl;
 import org.cloud.ssm.domain.Emp;
 import org.cloud.ssm.mapper.EmpMapper;
 import org.cloud.ssm.service.IEmpService;
+import org.cloud.ssm.utils.PasswordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ public class EmpServiceImpl extends BaseServiceImpl<EmpMapper, Emp> implements I
             for (int index = 0; index < list.size(); index++) {
                 Emp emp = list.get(index);
                 emp.setUserid(UUID.randomUUID().toString());
+                emp.setPassword(PasswordUtils.createPassWord(32));
                 batchSqlSession.getMapper(EmpMapper.class).insert(emp);
                 if (index != 0 && index % batchCount == 0) {
                     batchSqlSession.commit();

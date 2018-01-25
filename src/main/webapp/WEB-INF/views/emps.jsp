@@ -75,7 +75,7 @@
                     <th>部门</th>
                     <th>电话</th>
                     <th>Email</th>
-                    <th>標籤</th>
+                    <th>操作</th>
                   </tr>
                 </thead>
               </table>

@@ -334,7 +334,6 @@ public class ExcelUtils<T> {
             }
             returnList.add(obj);
         }
-        System.out.println("size=" + returnList.size());
         return returnList;
     }
 
@@ -352,8 +351,10 @@ public class ExcelUtils<T> {
         Workbook work = getWorkbook(file.getInputStream(), file.getOriginalFilename());
         List<List<String>> result = new ArrayList<>();
         Cell cell = null;
+        System.out.println(work.getNumberOfSheets());
         for (int sheetIndex = 0; sheetIndex < work.getNumberOfSheets(); sheetIndex++) {
             Sheet sheet = work.getSheetAt(sheetIndex);
+            System.out.println(sheet.getLastRowNum());
             for (int rowIndex = ignoreRows; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
                 Row row = sheet.getRow(rowIndex);
                 if (null == row) {
@@ -361,13 +362,23 @@ public class ExcelUtils<T> {
                 }
                 String[] values = new String[columnNum];
                 Arrays.fill(values, "");
+                // 空行判断
+                int blankNum = 0;
                 for (int columnIndex = 0; columnIndex < columnNum; columnIndex++) {
                     cell = row.getCell(columnIndex);
                     if (cell == null) {
                         values[columnIndex] = "";
+                        blankNum++;
                     } else {
                         values[columnIndex] = getCellValue(cell);
+                        if(StringUtils.isBlank(values[columnIndex] )){
+                            blankNum++;
+                        }
                     }
+                }
+                if(blankNum==columnNum) {
+                    //空行过滤
+                    continue;
                 }
                 result.add(Arrays.asList(values));
             }
