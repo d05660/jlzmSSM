@@ -1,38 +1,26 @@
 package org.cloud.ssm;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.util.Arrays;
+
+import org.junit.Test;
 
 /**
  * Unit test for simple App.
  */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
+public class AppTest {
+
+    @Test
+    public void test1() {
+        String[] strings = new String[10];
+        Arrays.fill(strings, "");
+        strings[1] = "asdf";
+        boolean isBlank = true;
+        for(String mString : strings) {
+            if(mString.length()>0) {
+                isBlank = false;
+            }
+        }
+        System.out.println(isBlank? 0 : 1);
     }
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
-
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
-    }
 }

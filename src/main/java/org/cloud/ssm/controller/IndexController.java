@@ -65,7 +65,7 @@ public class IndexController {
      */
     @GetMapping("/exportEmp")  
     public void exportBooks(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        String excelFileName = "図書一覧";
+        String excelFileName = "员工一覧";
         String[] titles = { "编号", "用户名", "密码" , "部门", "电话", "邮箱"};
         String[] columns = {"userid", "username", "password", "partment", "tel", "email" };
         List<Emp> list = empService.getAll();
